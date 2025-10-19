@@ -9,7 +9,7 @@ export default function DisplayPage() {
   const [word, setWord] = useState<Word | null>(null);
 
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:8080");
+    const ws = new WebSocket(import.meta.env.VITE_WS_URL);
 
     ws.onopen = () => console.log("Conectado ao WS da DisplayPage");
     ws.onclose = () => console.log("Desconectado");
