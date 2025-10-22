@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import FormPage from "./pages/FormPage.tsx";
 import ManagerPage from "./pages/ManagerPage.tsx";
 import DisplayPage from "./pages/DisplayPage.tsx";
