@@ -17,7 +17,9 @@ let currentWord: Word | null = null;
 let pendingWord: Word | null = null;
 let ranking: Ranking[] = [];
 
-const wss = new WebSocketServer({ port: 8080 });
+const PORT = process.env.PORT ? Number(process.env.PORT) : 8080;
+
+const wss = new WebSocketServer({ port: PORT });
 
 function broadcast(message: any) {
     const msg = JSON.stringify(message);
