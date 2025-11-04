@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export default function FormPage() {
-  const [email, setEmail] = useState("");
+  const [nome, setNome] = useState("");
   const [word, setWord] = useState("");
   const [ws, setWs] = useState<WebSocket | null>(null);
 
@@ -14,8 +14,8 @@ export default function FormPage() {
   }, []);
 
   const sendWord = () => {
-    if (!email || !word) return;
-    ws?.send(JSON.stringify({ type: "add-word", email, word }));
+    if (!nome || !word) return;
+    ws?.send(JSON.stringify({ type: "add-word", nome, word }));
     setWord("");
   };
 
@@ -23,10 +23,10 @@ export default function FormPage() {
     <div className="p-8 max-w-md mx-auto text-center">
       <h1 className="text-2xl mb-4">Envie sua palavra ou frase</h1>
       <input
-        type="email"
-        placeholder="Seu e-mail"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        type="text"
+        placeholder="Seu nome"
+        value={nome}
+        onChange={(e) => setNome(e.target.value)}
         className="border p-2 w-full mb-2"
       />
       <input
