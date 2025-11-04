@@ -25,25 +25,21 @@ export default function DisplayPage() {
     return () => ws.close();
   }, []);
 
-  // Efeito que roda toda vez que a 'word' mudar
   useEffect(() => {
     if (word) {
-      // Gera uma cor HSL (Matiz, Saturação, Luminosidade) vibrante
-      const hue = Math.floor(Math.random() * 360); // Qualquer cor do círculo cromático
-      const saturation = Math.floor(Math.random() * 30) + 70; // 70-100% (bem saturado)
-      const lightness = Math.floor(Math.random() * 20) + 50; // 50-70% (brilhante, nem muito escuro nem muito claro)
+      const hue = Math.floor(Math.random() * 360); 
+      const saturation = Math.floor(Math.random() * 30) + 70;
+      const lightness = Math.floor(Math.random() * 20) + 50;
       
       setBackgroundColor(`hsl(${hue}, ${saturation}%, ${lightness}%)`);
     } else {
-      // Se não houver palavra, volta para o preto
       setBackgroundColor("#000000");
     }
-  }, [word]); // Esta é a dependência: rode este efeito quando 'word' mudar
+  }, [word]);
 
   return (
     <div
       className="h-screen flex items-center justify-center text-white text-6xl font-bold transition-colors duration-1000"
-      // Removemos 'bg-black' e usamos o 'style' para a cor dinâmica
       style={{ backgroundColor: backgroundColor }}
     >
       {word ? word.text : "Aguardando palavra..."}

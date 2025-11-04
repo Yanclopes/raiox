@@ -4,12 +4,10 @@ interface Word {
   id: number;
   text: string;
   used: boolean;
-  // Note: A interface 'Word' no servidor também tem 'nome',
-  // mas como esta página não usa, não é estritamente necessário aqui.
 }
 
 interface Ranking {
-  nome: string; // <-- ALTERADO DE 'email'
+  nome: string;
   points: number;
 }
 
@@ -144,11 +142,11 @@ export default function ManagerPage() {
           <ul className="space-y-2">
             {ranking.map((r, index) => (
               <li
-                key={r.nome} // <-- ALTERADO DE 'r.email'
+                key={r.nome}
                 className="flex flex-row justify-between gap-2 bg-gray-100 rounded px-3 py-2"
               >
                 <div className="font-medium flex">
-                  {index + 1}. {r.nome} {/* <-- ALTERADO DE 'r.email' */}
+                  {index + 1}. {r.nome}
                 </div>
                 <div className="text-blue-600 flex font-semibold">
                   {r.points} pts
