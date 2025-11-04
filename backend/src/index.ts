@@ -8,7 +8,7 @@ interface Word {
 }
 
 interface Ranking {
-  nome: string; // Alterado de email
+  nome: string; 
   points: number;
 }
 
@@ -28,17 +28,13 @@ function broadcast(message: any) {
   });
 }
 
-// Alterado de email
 function updateRanking(nome: string, points: number) {
-  // Alterado de email
   const existing = ranking.find((r) => r.nome === nome);
   if (existing) {
     existing.points += points;
   } else {
-    // Alterado de email
     ranking.push({ nome, points });
   }
-  // Ordena do maior para o menor
   ranking.sort((a, b) => b.points - a.points);
   broadcast({ type: "ranking", ranking });
 }
@@ -56,13 +52,12 @@ wss.on("connection", (ws) => {
     try {
       const msg = JSON.parse(data.toString());
 
-      // FormPage envia palavra
       if (msg.type === "add-word") {
         const wordText = msg.word.trim().toLowerCase();
         const newWord: Word = {
           id: words.length ? Math.max(...words.map((w) => w.id)) + 1 : 1,
           text: wordText,
-          nome: msg.nome.trim(), // Alterado de email, removido .toLowerCase()
+          nome: msg.nome.trim(),
           used: false,
         };
         words.push(newWord);
@@ -70,7 +65,6 @@ wss.on("connection", (ws) => {
         broadcast({ type: "word-list", words });
       }
 
-      // Sorteia palavra pendente
       if (msg.type === "draw-word") {
         const restantes = words.filter((w) => !w.used);
         if (restantes.length === 0) {
@@ -102,12 +96,10 @@ wss.on("connection", (ws) => {
         }
       }
 
-      // Marca palavra como usada e atualiza ranking
       if (msg.type === "mark-used") {
         if (currentWord) {
           const wordText = currentWord.text.toLowerCase();
 
-          // Marca todas as palavras iguais (case-insensitive) como usadas
           const usadasAgora = words.filter(
             (w) => w.text.toLowerCase() === wordText && !w.used
           );
@@ -115,16 +107,30 @@ wss.on("connection", (ws) => {
           if (usadasAgora.length > 0) {
             usadasAgora.forEach((w) => {
               w.used = true;
-              updateRanking(w.nome, 1); // Alterado de w.email
+              updateRanking(w.nome, 1); 
             });
           }
 
-          // Atualiza lista e reseta palavra atual
           currentWord = null;
           broadcast({ type: "current-word", word: null });
           broadcast({ type: "word-list", words });
         }
       }
+
+      if (msg.type === "reset-game") {
+        words = [];
+        ranking = []; 
+        currentWord = null;
+        pendingWord = null;
+        
+        console.log("Jogo resetado. Todos os dados foram limpos.");
+
+        broadcast({ type: "word-list", words: [] });
+        broadcast({ type: "ranking", ranking: [] });
+        broadcast({ type: "current-word", word: null });
+        broadcast({ type: "pending-word", word: null });
+      }
+
     } catch (err) {
       console.error("Erro WS:", err);
     }
